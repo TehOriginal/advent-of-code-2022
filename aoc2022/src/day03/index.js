@@ -1,25 +1,32 @@
 import run from "aocrunner"
 import _ from "lodash"
 
-const parseInput = (rawInput) => rawInput
+const parseInput = (rawInput) => rawInput.split('\n')
 
-const alphabet = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('')
+const alphabet = '*abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('')
 
 const part1 = (rawInput) => {
   const input = parseInput(rawInput)
 
-  return _.sum(input.split('\n')
-  .map(input => [input.substr(0, input.length/2), input.substr(input.length/2, input.length)])
-  .map(input => [ input[0].split(''), input[1].split('') ] )
+  return _.sum(input
+
+  .map(input => [input.substr(0, input.length/2).split(''), input.substr(input.length/2, input.length).split('')])
+
   .map(input => _.intersection(input[0], input[1]))
+
   .flatMap(i => i)
-  .map(input => _.indexOf(alphabet, input)+1))
+
+  .map(input => _.indexOf(alphabet, input)))
 }
 
 const part2 = (rawInput) => {
   const input = parseInput(rawInput)
 
-  return
+  return _.sum(
+    _.chunk(input, 3)
+    .map(input => _.intersection(input[0].split(''), _.intersection(input[1].split(''), input[2].split(''))))
+    .flatMap(e => e)
+    .map(input => _.indexOf(alphabet, input)))
 }
 
 run({
