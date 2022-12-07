@@ -1,20 +1,18 @@
 import run from "aocrunner"
 import _ from "lodash"
 
-const parseInput = (rawInput) => rawInput.split('')
+const parseInput = (rawInput) => rawInput
 
 const getValue = (input, size) => {
   let stack = [];
   for(let i = 0; i < input.length; i++) {
     stack.push(input[i])
-    if(stack.length == size && stack.join('') === _.uniq(stack).join('')) {
+    if(_.uniq(stack).length == size) {
       return i+1
     }
-    if(stack.length == size) {
-      stack = _.tail(stack)
-    }
+    stack = (stack.length == size) ? _.tail(stack) : stack
   }
-  return 0;
+  return -1;
 }
 const part1 = (rawInput) => {
   const input = parseInput(rawInput)
